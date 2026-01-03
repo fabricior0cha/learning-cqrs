@@ -58,3 +58,13 @@ CQRS traz essa ideia de divisão das aplicações entre escrita e leitura, mas e
 A realidade nem sempre é como a teoria, se no contexto o que cabe é criar views materializadas, que seja. Estude a viabilidade do uso e verifique se o ganho vale a pena, já que pode custar processamento para a aplicação e banco de dados.
 
 ![Diagrama](assets/3.png)
+
+## Case prático
+
+Para ver o CQRS em ação, desenhei um case bem simples.
+
+![Diagrama](assets/arch.png)
+
+Optei por utilizar algumas tecnologias distintas para demonstrar a versatilidade do CQRS. Para a aplicação de escrita/command foi utilizado Go para criar uma REST API que realiza a persistência em um banco de dados relacional PostgreSQL, além de publicar um evento no Redis, que será utilizado como Pub/Sub.
+
+Para leitura, existe uma aplicação intermediária para sincronizar os eventos e persistir os dados já 'pré-processados' para leitura em um banco não-relacional MongoDB. No final, operações de leituras/query são realizadas por uma REST API construída em Node.
